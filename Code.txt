@@ -1,0 +1,533 @@
+Image divided into nine small images
+image=rgb2gray(imread(imgetfile));
+[x,y]=size(image);
+image1=image( 1     : x/3 ,   1       :   y/3);
+image2=image( 1     : x/3 ,   y/3:   2*y/3);
+image3=image( 1     : x/3 ,   2*y/3   :   y);
+image4=image( x/3 : 2*x/3   ,   1       :   y/3);    
+image5=image( x/3 : 2*x/3   ,   y/3   :   2*y/3);
+image6=image( x/3 : 2*x/3   ,   2*y/3   :   y);
+image7=image( 2*x/3 : x   ,   1       :   y/3);    
+image8=image( 2*x/3 : x   ,   y/3   :   2*y/3);
+image9=image( 2*x/3 : x   ,   2*y/3   :   y);
+imwrite(image1,('image1.jpg'));
+imwrite(image2,('image2.jpg'));
+imwrite(image3,('image3.jpg'));
+imwrite(image4,('image4.jpg'));
+imwrite(image5,('image5.jpg'));
+imwrite(image6,('image6.jpg'));
+imwrite(image7,('image7.jpg'));
+imwrite(image8,('image8.jpg'));
+imwrite(image9,('image9.jpg'));
+
+Images enhancement:
+
+function [Image]=enhancement(image)
+background = imopen(im,strel('disk',12));
+image1=image-background;
+Image= imadjust(image1);
+
+Statistical features’ extraction:
+
+function feature=feature statistical(image)
+feature(1) =mean (mean (image));
+feature(2) =std (sum (image));
+feature(3) =std (sum (image'));
+
+ Fourier features’ extraction:
+
+Function feature=feature fourier(image)
+k=[344 348 349 355 516 520 521 525 528 532 ];
+image=abs(fftshift(fft2(image)));
+[x,y]=size(image);
+feature (1)=max(max(image));
+image-dr1=image(:,(y/2));
+image-dr2=image((x/2),:);
+feature (2) =max(image-dr1(k(1):k(2)));
+feature (3) =max(image-dr1(k(3):k(4)));
+feature (4)=max(image-dr2(k(5):k(6)));
+feature (5)=max(image-dr2(k(7):k(8)));
+feature (6)=max(image-dr2(k(9):k(10)));
+
+
+
+ Matlab code for classification using statistical features only:
+
+ First approach 
+
+clear
+clc
+t=0;
+target=[];
+no_folders=11;
+no_images=10;
+for no_folder=1:no_folders
+for no_image_loop =1:no_images
+image=imread(strcat(image,int2str(no_folder),'\1 (',int2str(no_image_loop),').JPG' ));
+image=enhansment(image);
+feature=feature_statistical(image);
+t=t+1;
+feature(t,:)=feature;
+tt=zeros(no_folders,no_images);
+tt(no_folder,:)=1;
+end
+target=[target tt];
+end
+input=feature';
+net = patternnet([25 25],'trainrp');
+net = train(net,input,target);
+outputs = net(input);
+ plotconfusion(target,outputs)
+
+Second approach
+
+% --- Executes on button press in classification_S.
+function calssification_S_Callback(hObject, eventdata, handles)
+% hObject    handle to defect_or_free_S (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+close all
+clear
+clc
+% number folders 
+End folder=input('number folders = ');
+number folder=end folder;
+tt=0;
+targets=[];
+for no folder=1:end_folder
+% number of images 
+    No image = input(strcat('number image folder ',int2str(no folder) ,'='));
+for no image loop = 1:no_image
+           % read image
+im=imread(strcat(image,int2str(no folder),'\1 (',int2str(no image loop),').JPG'));
+% enhansment image
+[im]=enhansment(im);
+% feature extraction 
+feature=feature statistical(im);
+tt=tt+1;
+inputs(:,tt)=feature;
+t=zeros(number folder,no image);
+t(no_folder,:)=1;
+end
+targets=[targets t];
+end
+ save('targets_inputs.mat','targets','inputs');
+
+ Matlab code for classification using Fourier features only:
+
+First approach
+
+Clear
+clc 
+t=0;
+target=[];
+no folders=11;
+no images=10;
+for no folder=1:no folders
+for no image loop =1:no_images
+a=imread(strcat(image,int2str(no_folder),'\1 (',int2str(no image loop),').JPG' ));
+a2=enhansment(a);
+feature=feature fourier (a2);
+t=t+1;
+feature(t,:)=feature;
+tt=zeros(no folders,no images);
+tt(no folder,:)=1;
+end
+target=[target tt];
+end
+input=feature';
+net = patternnet([25 25],'trainrp');
+net = train(net,input,target);
+outputs = net(input);
+ plotconfusion(target,outputs)
+  
+Second approach
+
+% --- Executes on button press in classification_F.
+function classification _F_Callback(hObject, eventdata, handles)
+% hObject    handle to defect_or_free_F (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+close all
+clear
+clc
+% number folders 
+end_folder=input('number folders = ');
+number_folder=end_folder;
+tt=0;
+targets=[];
+for no folder=1:end folder
+% number of images 
+    No image = input(strcat('number image folder ',int2str(no folder) ,'='));
+for no image loop = 1:no_image
+           % read image
+im=imread(strcat(image,int2str(no_folder),'\1(',int2str(no image loop),').JPG'));
+% enhansment image
+[im]=enhansment(im);
+% feature extraction 
+Feature=feature fourier(im);
+tt=tt+1;
+inputs(:,tt)=feature;
+t=zeros(number folder,no image);
+t(no folder,:)=1;
+end
+targets=[targets t];
+end
+ save('targets_inputs.mat','targets','inputs');
+
+Matlab code for classification using Statistical analysis and Fourier features:
+
+Frist approach
+
+clear
+clc
+t=0;
+target=[];
+no folders=11;
+no images=10;
+for no folder=1:no_folders
+for no image loop =1:no_images
+a=imread(strcat(image,int2str(no folder),'\1 (',int2str(no image loop),').JPG' ));
+a2=enhansment(a);
+feature2=feature fourier(a2);
+feature1=feature statistical(a2);
+t=t+1;
+feature(t,:)=[feature1 feature2];
+tt=zeros(no folders,no images);
+tt(no folder,:)=1;
+end
+target=[target tt];
+end
+input=feature';
+ net = patternnet([25 25],'trainrp');
+net = train(net,input,target);
+view(net)
+outputs = net(input);
+ plotconfusion(target,outputs)
+
+
+Second approach
+
+% --- Executes on button press in classification_S_F.
+function classification _S_F_Callback(hObject, eventdata, handles)
+      % hObject    handle to defect_or_free_S_F (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+close all
+clear
+clc
+% number folders 
+end_folder=input('number folders = ');
+number_folder=end_folder;
+tt=0;
+targets=[];
+for no_folder=1:end_folder
+% number of images 
+    no_image = input(strcat('number image folder ',int2str(no_folder) ,'='));
+for no_image_loop = 1:no_image
+           % read image
+im=imread(strcat(image,int2str(no_folder),'\1 (',int2str(no_image_loop),').JPG'));
+% enhansment image
+[im]=enhansment(im);
+% feature extraction 
+Feature1=feature statistical(im);
+Feature2=feature fourier(im);
+tt=tt+1;
+inputs(:,tt)=[ Feature1 Feature2];
+t=zeros(number_folder,no_image);
+t(no_folder,:)=1;
+end
+targets=[targets t];
+end
+ save('targets_inputs.mat','targets','inputs');
+
+
+
+
+Matlab code for locations of Fourier spectrum peaks:
+
+   close all
+clear
+clc
+im=imread(imgetfile);
+% enhansment image
+[im]=enhansment(im);
+J=abs(fftshift(fft2(im)));
+[x,y]=size(J);
+J((x/2),(y/2))=0; 
+ A=J(343:373 , 515);
+B=J(343 , 515:545);
+ A1=A';
+B1= B;
+j=1;
+    for i=1:31
+if   0.35*A1(i)>mean (A1)
+    AA(j,1)=A1(i);
+    AA(j,2)=i;   
+end
+    end
+    [x,y]=size(AA); 
+   for i=2:x     
+ if AA(i,2)==AA(i-1,2)+1
+     n=AA(i,1);
+     m=AA(i-1,1);
+    if n>m
+        AA(i-1,:)=0;
+    else
+       AA(i,:)=0;
+    end 
+ end
+   end 
+   j=1;
+    for i=1:31
+if   0.35*B1(i)>mean(B1)
+    BB(j,1)=B1(i);
+    BB(j,2)=i;   
+end
+    end
+    [x,y]=size(BB); 
+   for i=2:x     
+ if BB(i,2)==BB(i-1,2)+1
+     n=BB(i,1);
+     m=BB(i-1,1);
+    if n>m
+        BB(i-1,:)=0;
+    else
+       BB(i,:)=0;
+    end 
+ end
+   end    
+     figure; plot(A1)
+figure;plot(B1)
+    AA(:,2)
+    BB(:,2)
+
+Create  neural network 
+
+function [net]=Neural_Network_mohy(inputs,targets)
+% Solve a Pattern Recognition Problem with a Neural Network
+% Script generated by NPRTOOL
+% Created Fri Jun 21 15:38:32 EEST 2013
+% This script assumes these variables are defined:
+%   inputs - input data.
+%   targets - target data.
+ % Create a Pattern Recognition Network
+load('targets_inputs.mat')
+hiddenLayerSize = 25;
+net = patternnet([hiddenLayerSize hiddenLayerSize]);
+ % Choose Input and Output Pre/Post-Processing Functions
+% For a list of all processing functions type: help nnprocess
+net.inputs{1}.processFcns = {'removeconstantrows','mapminmax'};
+net.outputs{2}.processFcns = {'removeconstantrows','mapminmax'};
+  % Setup Division of Data for Training, Validation, Testing
+% For a list of all data division functions type: help nndivide
+net.divideFcn = 'dividerand';  % Divide data randomly
+net.divideMode = 'sample';  % Divide up every sample
+net.divideParam.trainRatio = 80/100;
+net.divideParam.valRatio = 10/100;
+net.divideParam.testRatio = 10/100;
+%  trainrp RPROP backpropagation.
+%    trainrp is a network training function that updates weight and bias
+%    values according to the resilient backpropagation algorithm (RPROP).
+% For help on training function 'trainrp' type: help trainrp
+% For a list of all training functions type: help nntrain
+net.trainFcn = 'trainrp'; 
+% Choose a Performance Function
+% For a list of all performance functions type: help nnperformance
+net.performFcn = 'mse';  % Mean squared error
+ % Choose Plot Functions
+% For a list of all plot functions type: help nnplot
+net.plotFcns = {'plotperform','plottrainstate','ploterrhist', ...
+  'plotregression', 'plotfit'};
+ % Train the Network
+[net,tr] = train(net,inputs,targets);
+ % Test the Network
+outputs = net(inputs);
+errors = gsubtract(targets,outputs);
+performance = perform(net,targets,outputs);
+ % Recalculate Training, Validation and Test Performance
+trainTargets = targets .* tr.trainMask{1};
+valTargets = targets  .* tr.valMask{1};
+testTargets = targets  .* tr.testMask{1};
+trainPerformance = perform(net,trainTargets,outputs);
+valPerformance = perform(net,valTargets,outputs);
+testPerformance = perform(net,testTargets,outputs);
+ % View the Network
+view(net)
+ % Plots
+% Uncomment these lines to enable various plots.
+figure, plotperform(tr)
+ saveas(gcf,'1.jpg')
+figure, plottrainstate(tr)
+ saveas(gcf,'2.jpg')
+figure, plotconfusion(targets,outputs)
+ saveas(gcf,'3.jpg')
+figure, ploterrhist(errors)
+ saveas(gcf,'4.jpg')
+
+Test image using Statistical analysis and Fourier features:
+
+% --- Executes on button press in test_S_F.
+function test_S_F_Callback(hObject, eventdata, handles)
+% hObject    handle to test_S_F (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+close all
+clear
+clc
+load('net.mat')
+im=imread(imgetfile);
+imshow(im)
+[im]=enhansment(im);
+Feature1= feature statistical(im);
+Feature2=feature fourier(im);
+test=[feature1 feature2];
+s=sim(net,test’);
+[p,q]=max(s);
+q
+
+Test image using Statistical analysis:
+
+% --- Executes on button press in test_S.
+function test_S_Callback(hObject, eventdata, handles)
+% hObject    handle to test_S (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+close all
+clear
+clc
+load('net.mat')
+im=imread(imgetfile);
+imshow(im)
+[im]=enhansment(im);
+Feature=feature statistical(im);
+test=feature;
+s=sim(net,test’);
+[p,q]=max(s);
+q
+
+Test image using Fourier features:
+
+% --- Executes on button press in test_F.
+function test_F_Callback(hObject, eventdata, handles)
+% hObject    handle to test_F (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+close all
+clear
+clc
+load('net.mat')
+im=imread(imgetfile);
+imshow(im)
+[im]=enhansment(im);
+Feature=feature fourier(im);
+test= Feature;
+s=sim(net,test’);
+[p,q]=max(s);
+q
+
+
+Test any image 
+
+Frist approach 
+
+load('net.mat');
+im=imread(imgetfile);
+imshow(im)
+[im]=enhansment(im);
+feature1=feature statistical(im);
+feature2=feature fourier(im);
+test=[feature1 feature2];
+s=sim(net,test’);
+[p,q]=max(s);
+if q==1 
+    display ('kont')
+elseif q==2
+    display('float warp')
+    elseif q==3
+    display('light beat')
+    elseif q==4
+    display('heavy beat')
+    elseif q==5
+    display('missing picks')
+    elseif q==6
+    display('double end')
+    elseif q==7
+    display('hole')
+    elseif q==8
+    display('stain')
+    elseif q==9
+    display('double pick')
+    elseif q==10
+    display('free')
+else
+    display('big kont')
+end
+
+Second approach
+
+clear
+clc
+a1=load('net 11.mat');
+a2=load('net 22.mat');
+a3=load('net 33.mat');
+a4=load('net 41.mat');
+a5=load('net 51.mat');
+im=imread(imgetfile);
+imshow(im)
+[im]=enhansment(im);
+Feature=feature statistical(im);
+test=feature;
+s=sim(a1.net,test’);
+[p,q]=max(s);
+if q==2
+  display('free')
+else
+    display('defect')
+feature = feature fourier(im);
+test= feature;
+s=sim(a2.net,test’);
+[p,q]=max(s);
+if q==1
+ display('area')
+feature1=feature statistical(im);
+feature2=feature fourier(im);
+test=[feature1 feature2];
+s=sim(a3.net,test’);
+[p,q]=max(s);
+ if q==1
+     display('kont')
+ elseif q==2
+     display('hole')
+ else
+     display('stain')
+ end    
+elseif q==2
+    display('warp')
+feature=feature statistical(im);
+test=feature;
+s=sim(a4.net,test’);
+[p,q]=max(s);
+if q==1 
+    display('Double end')
+else
+    display('Float warp')
+end
+else
+    display('weft')
+feature=feature statistical(im);
+test=feature;
+s=sim(a5.net,test’);
+[p,q]=max(s);
+if q==1
+    display('ligth beat')
+elseif q==2
+    display('heavy beat')
+elseif q==3
+    display('missing picks')
+else
+    display('Double pick')
+end
+end
+end
