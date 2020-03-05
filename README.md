@@ -1,2 +1,14 @@
 # Neural-Networks
 MATLAB program to classify different images of fabric products. We have used some Math Algorithms to extract the features from the images and then classify the feauters with Neural Network.
+
+Intoduction:
+
+The main problem in Textile Industry is to increase the ratio between Quality and Productivity with high flexibility and minimization of the cost. So it is so important to test the products to ensure quality. Most of textile testing requires a subjective evaluation by trained personnel. But this person cannot work 24 Hours with zero faults, so the mill must have a lot of trained persons for these evaluations. Also subjective evaluation yield erratic results and costs a lot of money. So it is important to have on-line and high speed quality controls to enable automation to improve quality value, in addition to increase of production speeds.
+Image processing technique was rapidly developed for inspection of various materials and ensures quality, and a lot of cameras manufactures offered computerized cameras with high options like: speed, accuracy, and optical zooming to make achieved success process. Image-processing techniques included operations performed by computer in order to carry out pre-programmed tasks and many people called this (machine-vision system). These techniques analyze 2-D or 3-D Dimensional scenes to extract important information (features) and take decisions as to pre-define inputs. Like human-vision system self-programming that acquired knowledge by trial and error, computer vision needs programming for each task. Image processing enhances the quality of images by mathematical functions to make easy analysis and make calculation for getting numerical results to take decision. Other approach is to divide continuous video to individual digital scenes and track objects which are different from the surroundings by separating the object from their back ground and compute its blob measurements and location.
+For making a success computer vision system it is important to understand optics theory, image principles, image environment, image formation, image types, texture features and deal with image accessories like cameras. Digital image-processing means self computer-processing of the picture or images in numerical form. Image processing needs large numbers of steps depend on the nature of the image. Some of processing steps involve: feature enhancement, image segmentation, image-smoothing, image-sharpening, image restoration, image addition, subtraction, and multiplication, image-filtering, image compression, image transformation, image classification, and finally image analysis. Enhance the quality of the image is important to make better analysis.
+
+
+Simple form:
+(1) Acquisition, 		(2) Storage, 
+(3) Processing, 		(4) Results, 
+(5) Decision.
