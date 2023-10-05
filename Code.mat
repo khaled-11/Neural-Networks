@@ -27,14 +27,14 @@ background = imopen(im,strel('disk',12));
 image1=image-background;
 Image= imadjust(image1);
 
-Statistical features’ extraction:
+Statistical featuresâ€™ extraction:
 
 function feature=feature statistical(image)
 feature(1) =mean (mean (image));
 feature(2) =std (sum (image));
 feature(3) =std (sum (image'));
 
- Fourier features’ extraction:
+ Fourier featuresâ€™ extraction:
 
 Function feature=feature fourier(image)
 k=[344 348 349 355 516 520 521 525 528 532 ];
@@ -383,7 +383,7 @@ imshow(im)
 Feature1= feature statistical(im);
 Feature2=feature fourier(im);
 test=[feature1 feature2];
-s=sim(net,test’);
+s=sim(net,testâ€™);
 [p,q]=max(s);
 q
 
@@ -403,7 +403,7 @@ imshow(im)
 [im]=enhansment(im);
 Feature=feature statistical(im);
 test=feature;
-s=sim(net,test’);
+s=sim(net,testâ€™);
 [p,q]=max(s);
 q
 
@@ -423,7 +423,7 @@ imshow(im)
 [im]=enhansment(im);
 Feature=feature fourier(im);
 test= Feature;
-s=sim(net,test’);
+s=sim(net,testâ€™);
 [p,q]=max(s);
 q
 
@@ -439,7 +439,7 @@ imshow(im)
 feature1=feature statistical(im);
 feature2=feature fourier(im);
 test=[feature1 feature2];
-s=sim(net,test’);
+s=sim(net,testâ€™);
 [p,q]=max(s);
 if q==1 
     display ('kont')
@@ -479,7 +479,7 @@ imshow(im)
 [im]=enhansment(im);
 Feature=feature statistical(im);
 test=feature;
-s=sim(a1.net,test’);
+s=sim(a1.net,testâ€™);
 [p,q]=max(s);
 if q==2
   display('free')
@@ -487,14 +487,14 @@ else
     display('defect')
 feature = feature fourier(im);
 test= feature;
-s=sim(a2.net,test’);
+s=sim(a2.net,testâ€™);
 [p,q]=max(s);
 if q==1
  display('area')
 feature1=feature statistical(im);
 feature2=feature fourier(im);
 test=[feature1 feature2];
-s=sim(a3.net,test’);
+s=sim(a3.net,testâ€™);
 [p,q]=max(s);
  if q==1
      display('kont')
@@ -507,7 +507,7 @@ elseif q==2
     display('warp')
 feature=feature statistical(im);
 test=feature;
-s=sim(a4.net,test’);
+s=sim(a4.net,testâ€™);
 [p,q]=max(s);
 if q==1 
     display('Double end')
@@ -518,7 +518,7 @@ else
     display('weft')
 feature=feature statistical(im);
 test=feature;
-s=sim(a5.net,test’);
+s=sim(a5.net,testâ€™);
 [p,q]=max(s);
 if q==1
     display('ligth beat')
